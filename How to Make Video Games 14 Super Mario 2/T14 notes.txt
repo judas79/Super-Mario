@@ -1,0 +1,11 @@
+How to Make Video Games 14 : Super Mario 2
+
+https://www.youtube.com/watch?v=iotYMpvJp0Q&list=PLGLfVvz_LVvSYnwKyw9xP5tEn7GSUWwZJ&index=14
+
+In this tutorial we continue making our Super Mario Clone! We cover Sorting Layers, Animations, Collisions, Controlling Characters, Awake(), 
+Changing Characters Facing Direction, Jumping, Raycasting and Much More.
+
+All of the code follows the video below. Here are all the Images and Sounds used in this series.
+
+http://www.newthinktank.com/2017/07/make-video-games-14/
+

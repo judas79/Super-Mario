@@ -1,0 +1,209 @@
+﻿HOW TO MAKE VIDEO GAMES 13
+Posted by Derek Banas on Jul 14, 2017 in Make Video Games | 0 comments
+Make Super Mario BrothersIn this video tutorial we start making a Super Mario Clone!!! I’ll cover Pixel Art with Gimp, 
+Sprites, Setting up a New Game, Cleaning up Images, Slicing Sprite Sheets, Designing Scenes, Tracking Chracters with a Camera, and Much More.
+
+All of the code used follows the video below. Here is a link to all the Sounds and Images I use in this series.
+
+http://www.newthinktank.com/2017/07/make-video-games-13/
+
+Project files download:
+
+http://www.newthinktank.com/wordpress/MarioAssets.zip
+
+How to Make Video Games 13 : Make Super Mario 1
+
+https://www.youtube.com/watch?v=wwcWNyt8Uyk&list=PLGLfVvz_LVvSYnwKyw9xP5tEn7GSUWwZJ&index=13
+
+****************** setup folders and save MainScene ***************************
+
+After downloading or building the project files, we will add our empty folders to assets, inside of Unity.
+
+Assets:
+
+Animations
+Prefabs
+Scenes
+Scripts
+Sounds 
+Sprites
+
+Then go to 'save scene', 'save project' the we will '.
+Then we will save the Scene inside the 'Hierarchy ...' 3 dots, Then click 'save scene as' and save as,
+'MainScene' inside the Assets, Scenes folder.
+
+Next drag all the Sprites from the folder that they are stored in, into the Sprites folder, in Unity.
+There should be 16 sprites total.
+
+***************** setup Sprites **********************
+
+Select all the sprites, and in settings set to:
+pixels per unit = 32
+filter mode = Point
+Click apply, at the bottom of the settings.
+
+Next, highlight our Manny group of Sprites, and change the setting:
+Compression = High Quality
+then Apply
+
+We will do the same thing for:
+BrickBlock
+Coin
+Bee1
+Bee2
+
+Next we will split up our Manny sprite sheet.
+Select it, Then change these settings:
+Sprite Mode = Multiple
+pixels per unit  = 32
+
+Click sprite editor then, Apply.
+In the editor click the upside down triangle and choose:
+Type = grid by cell size
+pixel size = 32 x 32
+then click slice button, then apply, then close the editor.
+
+Check the Manny group of sprites to see that they are now sliced out.
+
+******************* Camera, grass, fillHole, PrizeBlock, Pipe, BrickWall, Coin and bush setup ****************************
+
+Next click the hierarchy MainCamera, and set settings to:
+Size = 8
+Color = #D9E8FC00 hex, sky color
+
+Drag the grass sprite into our scene window.
+Then drag the grass from the hierarchy list into our prefabs folder, 
+then delete from hierarchy.
+Next, drag the grass from prefab into our left bottom corner of our Main camera area, 
+our Main Scene window.
+
+Next, hierarchy, create empty, rename to Grass, the drag the Grass prefabe, that is in hierarch list,
+into the Grass, object Container.
+Duplicate that Grass prefab 12 times. 13 total for now
+Go down each duplicate and addt 1, in the position X, from whatever the duplicate grass preceeding it was.
+If Grass position X = -14 then Grass(1) position X = -13
+Run it to see how much if any we need to alster our grass to the right, to cover the starting left most point of the screen.
+After, compensating for the neccessary offset, to get the starting point, on your left to the edge of the games screen,
+keep duplicating the grass and adding 1 to the x position until ith goes almost all the way to your right side of the playing screen.
+Leave about 1/8 empty area, a hole on the right expanse of grass, to the right wall.
+
+						 hole (no grass)
+|							|	|
+|							v	|
+| <------- Grass ------>|		|
+|_______________________________|
+bottom left						bottom right wall
+
+
+Next, drag in the 'FillSprite' from the Sprites folder, into the Grass object container, in the hierarchy list.
+Then drag the fillSprite from the middle of our Scene Window, and place it directly below, the grass, we just completed.
+Zoom in and align the fillSprite left edge with our grass edge.
+Select the Rect Tool and drag our fillSprit, all the way to our right wall(camera right edge).
+
+						 hole (no grass)
+|							|	|
+|							v	|
+| <------- Grass ------>|		|
+|_______________________________|
+================================ <-- FillSprite
+bottom left						bottom right wall
+
+Next change the color of our FillSprite to #004F15 (green as the darkest shade of the green grass)
+
+Next, create a prefab, out of the Bush, create Bushes container out of empty object container in heirarchy;  
+put it in there.
+Drag your Bush, the bottom left camera boreder, and align it above the grass.
+
+						 hole (no grass)
+|	|<-camera border		|	|
+|	|	@<-bushes			v	|
+|<0-|------- Grass ------>|		|
+|___|_____________________|
+================================ <-- FillSprite
+bottom left						bottom right wall
+
+Next, make a prefab out of the PrizeBlock sprite, create a empty object container renamed to PrizeBlock,
+delete the PrizeBlock sprite from hierarchy list, and put the prefab PrizeBlock in the PrizeBlock container.
+
+
+						 hole (no grass)
+|	|<camera  #<prizebrick		|	
+|	|	@<-bushes			v	|
+|<0-|------- Grass ------>|		|
+|___|_____________________|     |
+================================ <-- FillSprite
+bottom left						bottom right wall
+
+
+Do the same thing for the Pipes sprite, and put it into a Pipes container.
+Position it of the grid blocks background, from the left side of our camera border, and grids up, from our grass.
+Put the pipe halfway of the x axis of the grass; on top of the grass.
+
+
+                    v  pipe
+____________________0____________________ <grass
+
+
+(do the same thing as before)
+Next, make a prefab out of the BrickBlock sprite, create a empty object container renamed to BrickBlock,
+delete the brickblock sprite from hierarchy list, and put the prefab brickblock in the BrickBlocks container.
+Put the brickblock above and to the right of the pipe, at the same height as the prizebrick.
+
+          #prizebrick            # brickblock
+
+                    v  pipe
+____________________0____________________ <grass
+
+
+next, duplicate the BrickBlock twice, then in the BrickBlock(1) position x, add 1 to it,
+so that it sits to the right of the original brickblock.
+Add another 2 to the position x of the second copy so it sets right next to the first copy.
+
+
+          #prizebrick            ### brickblocks
+
+                    v  pipe
+____________________0____________________ <grass
+
+
+Next, do the same for the Coin sprite, and name the container Coins.
+Then make two duplicates of coin, and put one above each BrickBlock, 
+adding 1 each time, to the duplicates to keep them evenly spaced.
+Make one more duplicate and put it befor our hole, in the grass
+
+
+								 ooo coins
+          #prizebrick            ### brickblocks  |
+												  |< right camera border
+                    v  pipe                       |
+____________________0____________________#__ hole |
+          ^								 ^
+		grass                       brickBlock
+
+
+************************* setup camera tracking of Manny *****************************
+
+Drag MannySpriteSheet(0), form sprites area, into our scene window, so we can use him to setup the camera, that will track him.
+Place him on top of the grass, between the bush and the PrizeBlock, we placed earlier.
+Rename him to Manny, inside hierarchy.
+
+Next, in the Scripts folder, create new C# script, name it 'CameraMove', then double click it to go into Visual Studio,
+where we will continue the comments and tutorial, within the script...
+
+After returning from setting up our camera tracking for Manny, 
+we will go select our camera, in Unity, and drag our CameraMove script into its settings.
+Drag Manny from hierarchy into the 'camera target' space, that we just added,
+with the CameraMoves script, into the camera settings, at the bottom.
+The other CameraMoves script settings for our camera:
+Camera Speed = 2.5
+MinX = 0
+MinY = 0
+MaxX = 100
+MaxY = 100
+
+Make sure you have 'Maximize on play' turned off, in your Unity browser run options.
+To test the tracking, run the game, and drag the Manny sprite towards the center of the camera area,
+then to the bottom right side of the camera area, and watch that the tracking, isn't jumping,
+and is smooth, in the scene window area, and the game area.
+See that you can move Manny halfway upt the scene screen, before the cmera moves up at all.
+Also that the camera doesn't move to the right, until you have crosed the midpoint of the camera area in the Scene screen window.
