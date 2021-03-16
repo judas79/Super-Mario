@@ -9,3 +9,190 @@ All of the code follows the video below. Here are all the Images and Sounds used
 
 http://www.newthinktank.com/2017/07/make-video-games-14/
 
+
+**************************** Add colliders, and settings to grass, fillSprite, Bushes ***************************
+
+First in Unity, we will add BoxColiders 2d to all of our grass prefabs, so Manny can run around on them.
+Select all prefab the grass in hierarchy as well as the fillSprite, and add BoxCollider2d in settings.
+
+Next in the sprite renderer settings , for all the grass and FillSprite,
+we will set things so that our character, Manny, always sits on top of the grass and fillSprite.
+In sprite renderer settings, click 'Sorting layers' and choose 'New Sorting Layers'.
+Click the popup + sign and add the word "Background", in the provided space, then hit enter.
+Drag the Background, you just made, above the default, that was already there, so that this backgrounds priority is set,
+in the top of the order, within this group of settings, so that the background shows up as the background, and will be drawn first.
+Once again, select all grass and fillsprite in hierarchy, the in the sorting area, choose Background.
+verify, that all grass and fillsprite are set to background.
+
+Next we will add two Bushes, to our game scene window.
+Duplicate, the Bush prefab, inside hierarchy, twice.
+Drag them over so that one sits after the pipe and below the next BrickBlock.
+Set the other bush, next to this one, on its left and touching it.
+Select all the bushes in hierarchy, and coose Background in the Sorting Layer, dropdown.
+
+
+*************************************** Clouds, more pipes ****************************************
+
+Next, create an empty object container in hierarchy and name it Clouds.
+Drag, one of each cloud, out of the three clouds, from the Sprites folder, into the Clouds container.
+Put them above the top of the BrickBlocks x axis, and spread, within our first Scene.
+|                   
+|          cloud 1											cloud 3
+|				@												@
+|
+|									cloud 2
+|										@
+|              #
+|         prizeblock
+|
+|																			|
+|________________________________________________________________   hole    |
+
+Select, all the clouds in hierarchy, and choose the Background option, from the Sorting Layers dropdown.
+Also, verify that all three clouds are 32 pixels per unit.  Verify this by selecting each cloud in the Sprites folder,
+amd checking them there.
+
+Next, we will add a collider 2d, to our pipe, that is within the hierarchy list, so Manny can jump up on it.
+Choose the pipe and add the Boxcollider 2d component.
+
+
+
+************************************* start animating Manny *************************************
+
+First, we will remove Manny from our Scene window, by deleting him from our hierarchy.
+This will also break our camera, because the Camera target field, within the main camera settings, will no longer include Manny, as the target.
+
+Next, select and drag BOTH the MannyspriteSheet(0), and MannyspriteSheet(1), into our Scene window, once more.  At the same position, as the one we just deleted.
+Then, in the popup animation dialog box change the  Manny(0) name to Idle, under Assets, and choose the Animation folder and save.
+The Name of the Animation Idle, because that is what Manny is doing.
+Then check if your Idle animation is in the sprites folder, if it went there, and drag it into our Animations folder.
+
+Next, select MannyspriteSheet(2), MannyspriteSheet(3) and MannyspriteSheet(4), using the shift key, from the scripts folder, and drag them into the scene window.
+Do the same, and create one animation, for all 3 of them, and name it, Run.
+Move it into our Animations folder, if its in your sprite folder.
+Then delete the Manny Run items, from our hierarchy.
+
+Do the same for MannyspriteSheet(5) and MannyspriteSheet(6), and rename them to Jump, and move them to the correct folder, 'animation folder' if needed.
+Delete the Jump sprites from our Hierarchy.
+
+Go into the Animations folder.  In there you should see 6 files, delete the MannyspriteSheet(2) and MannyspriteSheet(5) files and leave the,
+MannyspriteSheet(0), Run, Jump and Idle files, alone.
+
+
+*************************************** setup animation in Animator editor *****************************************
+
+
+Next, double click MannyspriteSheet(0) in the Animations folder, and you should get a popup Animator editor.
+The green is the entry position wit an arrow to the orange oval.   Whatever is orange, in here is the default state, in this case 'Idle'.
+Drag, Jump and Run into the Animator editor, from our Animations folder.
+Save, Save Scene, Save Project.
+
+Run the game to see that the animation is working.
+Mine is jittery jumping too much so we will slow it down.
+Select the orange oval Idle object and go into its settings, set:
+Speed = .1
+save.
+
+Next we will define some parameters used to determime which animation is used; Idle, jump or Run.
+We will do this in the Animator editor.
+Select Parameters, in the Animator editor.  Then click the +(triangle) dropdown and choose Float.
+Name the float 'Speed' = 0
+Next, do the same procedure and choose Bool, from the dropDown.
+Name the bool 'Jumping' and leave it unchecked (False)
+
+Next, right click Idle and choose, 'Make Transition', then click on Run, and they will be joined by a arrowed line,
+from the Idle to the Run.
+Click on the arrow, in the middle of that line to define our method for moving, to choose the behavior of what constitutes moving,
+from the Idle animation, to the Run Animation.
+On the right side of the screen you will now see Idle->Run transition settings.
+Click on the + sign, in 'Conditions', to choose the condition under which we move from Idle to Run.
+And the condition is: Speed is greater than 0.  Which is what came up as the first choice...
+uncheck, 'has exit time'
+
+Next, right click on Run, and choose Make Transition, and hook the line to Idle.
+Then we will handle the situation when run is to switch to Idle.
+uncheck, 'has exit time'
+There is no <=, or >= here, everything is greater or less than.  So to switch back to idle when movement equals 0 is not feasible.
+In Condition, choose the + option, the speed is less than, and type in .001.  (which is almost to zero), to switch back to Idle.
+uncheck, 'has exit time'
+
+Next, right click Idle, choose Make Transition, and hook it to Jump
+Click the arrow and enter;   'Jumping' if this bool is set to 'true', to switch to jumping animation.
+uncheck, 'has exit time'
+right click Jump, choose make tramsition, and hook to Idle.
+Click the arrow and enter;   'Jumping' if this bool is set to 'False'. to switch to Idle animation.
+uncheck, 'has exit time'
+
+Next, right click Run, choose make transition, and hook to Jump
+Click the arrow and enter;   'Jumping' if this bool is set to 'true', to switch to jumping animation.
+uncheck, 'has exit time'
+right click Jump, choose make tramsition, and hook to Run.
+Click the arrow and enter;   'Jumping' if this bool is set to 'False'. to switch to Run animation.
+uncheck, 'has exit time'
+
+Next we will verify that the gravity settings, are set correctly for our character 'Manny'.
+Edit, Project Settings, Physics 2D, Gravity
+Gravity x = 0
+Gravity y = -9.81
+
+Next in hierarchy rename name, MannySpriteSheet_0 to Manny,
+Select the MainCamera, then drag Manny into the 'Camera Target' field, in settings.
+
+Select Manny, in hierarchy, and add a 2D boxCollider to his settings.
+If you look at the section box, around Manny, in our scene window, you will see there is a lot of empty space beteen him and the selection box,
+we want to get rid of a lot of that space.
+In the BoxCollider for Manny, set the offset, to about:
+offset x = -.03
+offset y = -.06
+size x = .6
+size y = .85
+
+Next add rigidBody 2D to Manny, so he will not spin on z axis, in settings:
+Constraints, Feeeze Rotation z , checked
+Collision detection = Continous
+
+Next we will verify our input, for our events, as far as movement:
+Edit, Project Settings, Input, Input Manager, Axes:
+Horrizontal:
+Negative Button:  left
+Positive button:  right
+alt. negative button:  a
+alt Positive button:   d
+
+Jump:
+positive button:      space (bar)
+alt positive button:  joystick button 3
+
+
+******************************************** Manny Script ***************************************
+
+Next, right click on Assets, Scripts and create a C# script, and rename it to Manny.
+Double click the Manny script, and we will continue our comments, as well as the code, 
+to make Manny move, there....
+
+returning from VS after setting up and saving after leaving:
+		// Set the Speed, the Speed we set up in the animator editor, to move between Idle and Run
+        // so the right Animation is played, to the horzMove s absolute value
+        animator.SetFloat("Speed", Mathf.Abs(horzMove));
+
+In Unity, hierarchy, select Manny, the drag the Manny script into the Manny Settings.
+Save the script, Save then run, to see if Manny moves, and goes into Idle, when not moving,
+using the a and d keys.
+He moves, but to fast, only faces right, and gets stuck on something.
+
+To fix Mannys speed, we go into the Animator editor, choose Run, and set the speed from 1 to .5
+
+To stop Manny from getting stuck, we select him in hierarchy, 
+and move him up a little, in the y axis. Changed Manny
+position Y = -5 to:  position Y = -4.98
+
+We will need to go back into the VS script to track Manny and change his position, when the direction,
+he is moving in changes.  Continue code and comments in VS...
+
+After returning from coding the  void FlipManny() to face the direction Manny is going in,
+run it to test it.
+All good, as far as facing the right direction, but Manny still gets stuck.
+
+Next we will return to VS, and write the code to make him jump, so continue in Manny.cs in VS...
+
+After saving, and returning from setting up Mannys ability to jump, in VS, try it out in Unity.

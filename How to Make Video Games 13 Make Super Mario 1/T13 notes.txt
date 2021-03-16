@@ -206,4 +206,4 @@ To test the tracking, run the game, and drag the Manny sprite towards the center
 then to the bottom right side of the camera area, and watch that the tracking, isn't jumping,
 and is smooth, in the scene window area, and the game area.
 See that you can move Manny halfway upt the scene screen, before the cmera moves up at all.
-Also that the camera doesn't move to the right, until you have crosed the midpoint of the camera area in the Scene screen window.
+Also note, that the camera doesn't move to the right, until you have crosed the midpoint of the camera area in the Scene screen window.
