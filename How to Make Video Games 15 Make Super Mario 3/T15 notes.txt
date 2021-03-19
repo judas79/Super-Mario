@@ -1,0 +1,157 @@
+How to Make Video Games 15 : Make Super Mario 3
+
+https://www.youtube.com/watch?v=z59_ijnt92g&list=PLGLfVvz_LVvSYnwKyw9xP5tEn7GSUWwZJ&index=15
+
+In this part of my tutorial on how to make a Super Mario Clone we cover a ton of topics! We cover how to Fix Collision Errors, 
+Fix Scene Errors, AnimationCurve, Moving the UI with the Camera, Block Collisions, Reacting to Collisions from 1 Direction, 
+Exploding Brick Blocks, Coins, Sounds and More.
+
+Like always the code follows the video below. Here are all the Images and Sounds
+
+http://www.newthinktank.com/wordpress/MarioAssets.zip
+
+
+***************************** Fix Manny collision with unseen object *****************************
+
+When many colliders are placed next to each other, they tend to collide with each other, because of their proximity.
+To fix this, in this situation, we will select all the grass objects and fillSprite, in hierarchy, and remove the BoxCollider 2d,
+from all of them.
+Next, select the Grass container object and add the  BoxCollider 2d to them, that way.
+Next, change the offset and size, of the BoxCollider until it surrounds all of our grass and fillSprite.
+In your Scene window, select the icon that allows you to edit collider, to see the outline of the collider.
+Then, Try as a starting point:
+BoxCollider 2D:
+size X = 27
+size y = 2
+Offset x = -2
+offset y = -6.5
+
+Run it to see if it works... hurray it works!
+
+
+****************************** Sound Manager *****************************
+
+First, in hierarchy create and empty object, then name it SoundManager.
+Right click SoundManager, and choose Audio, Audio Source.
+Next create a new script, and name it SoundManager, then double click it,
+and we will continue with our notes and code, in our VS app...
+
+After returning from creating our SoundManager script, we need to drag and drop our sound clips,
+into our Sounds folder in Assets, if you haven't done so already.
+Thendrag our SoundManager script into our SoundManager settings, to add it there.
+Next, select your SoundManager script and drag the sounds that pertain to thier public fields, by name,
+in the SoundManager script.
+
+
+********************************* PrizeBlock *****************************
+
+Next, we will make our PrizeBlock work.
+Select PrizeBlock, in hierarchy, PrizeBlock container, and add a RigidBody 2d and a BoxCollider 2d, to it.
+In RigidBody 2d setting, set:
+Body Type = Kinetic
+Kinetic, because it only moves in one way, and doesn't need to be controlled.
+
+We will add an animation to this, so the PrizeBlock jumps up, in the script.
+
+Next we will create another script, and name it PrizeBlock, double click it,
+and continue our notes and comments within the script...
+
+After comming back from adding our public defines, we will drag our PrizeBlock script,
+into our PrizBlock, in hierarchy, prizeblock container, settings, as a component.
+
+Within our PrizeBlock script inside our prizeblock settings, we will double click within the 'anim' field,
+to edit it, to do our animation.
+A box should popup, named 'curve'.  There we will use a curved line, to edit the coins, upwards movement,
+and time it takes to get to the top of the curve, and the the coins falling, and time, until it hits bottom.
+We want the coin to jump up quick and come down slow.
+
+     _
+    / \
+   /    \
+  /       \
+ /           \
+/                 \___
+
+Next, we will need a UI for out PrizeBlock Coins, to keep the Score.
+When the PrizeBox is hit, coins will be generated...
+In Hierarchy, create a Text UI, which will also create Canvas, for it.
+Rename Text to Score.
+
+Next, select Canvas, and change the settings:
+Render Mode = Screen Based Camera;  we want the UI elements to move as the camera moves.
+Drag, out Main Camera from heirarchy, into the 'Render Camera' field.
+
+Next, Click on Score, and change these settings.
+Font Style = Bold
+Color = 'white'
+
+Next, select Canvas, and drag the Score text box up into the top left of your game screen.
+Change the: 
+Text = 0 (zero)
+Font Size = 28
+Height = 50
+
+Next, drage your Score text box out of the MainCamera bounderies.  So it shows up, in the top left corner,
+of your gameplay window, when you run it.  It will take some moving, to achieve the right top location desired!
+
+Next, double click our PrizeBox script, and we will continue, making the Score and Prizebox work, there...
+
+After returning from our script after adding the ability to run the coin animation, change the score and,
+adding 'using UnityEngine.UI;' to the librarries at the to of the script, so we could manipulate the text
+oject in our score, we can now test our game by running it.
+
+Two things that might come up:
+Rename, your Text UI component that you made previously, to Score, if its not already that way.
+If there is no sound, and you get a audio null type error, insure that you added your SoundManager script to the Audio Source,
+inside the SoundManger container in your hierarchy, and that the sound clips where added to thier corresponding fields.
+
+Next increade the Size of our Score:
+Scale x and y  = 2
+Re-orient the Score Text, in the gameplay screen, as needed.
+
+If your Scene goes grey, while you are zooming in and our, right click, above our sceen screen area,
+where it says #Scene then choose Add tab, then Scene, then go to the same place, and choose close tab,
+to close the scene.
+
+
+*********************************** BrickBlocks **************************************
+
+First, we will add a boxcollider2d to both types of BrickBlock, and BrickBlocks, in our hierarchy, so select all ot them.
+Add, a Boxcollider 2d to them all.
+
+Next we will set it up so that if any of these BrickBlocks, are hit at the bottom, by Manny, they will explode.
+We will add the explodedBlock Sprite to our BrickBlocks for that effect, later.
+
+Next, we will create a new Script, and name it BrickBlock, and double click it to launch it in VS.
+Then select all 3 of the BrickBlocks, with coins on top of them; the ones Manny will be jumping up into,
+to dislodge the coins.
+Drag the BrickBlock script into the setting of those 3 selected BrickBlock objects, in the settings area.
+
+Next, double click the Brickblock script and we will continue our notes and code in  VS...
+
+After returning from setting up our BrickBlock script and the transition from the brickblock,
+to the explodedblock animation, we will select those same three coin on top, BrickBlocks, in hierarchy.
+Then drag our ExplodedBlock, from the sprites folder, into the explodedBlock field, in the setting, BrickBlock script, area.
+
+run the game, and see if the BrickBlocks, explode when manny jumps, and hits the bottom of them,
+with his head.
+Success!
+
+
+*************************************** Coins ****************************************
+
+
+First, select all 3 Coins, in hierarchy.
+Add a CircleCollider 2d to those.  The same thing as a boxcollider, but a circle around the edge.
+
+Next create a Script and name it Coin.
+Double click the Coin script and add this DL:
+// Needed to manipulate the UI
+using UnityEngine.UI;
+and continue notes and code in VS...
+
+After returning from setting up our coin collisions and scoring, for them,
+Select the 3 coins in hierarchy, the drag the Coin Script, into thier settings.
+run the game to see that it all works.
+
+
