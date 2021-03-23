@@ -40,6 +40,11 @@ public class Manny : MonoBehaviour
     // T14 define the maximum the jumpButtonPressTime (spacebar) is pressed for (go to FixedUpdate to setup jump)
     private float maxJumpTime = 0.2f;
 
+    // T16 stores the amount we want the velocity to change when Manny wall jumps
+    public float wallJumpY = 5f;
+
+
+
     // T14 using a rigidBody 2D so we will use FixedUpdate, so we can start Manny moving
     void FixedUpdate()
     {
@@ -52,6 +57,15 @@ public class Manny : MonoBehaviour
 
         // Change rigidbody x and keep y as is
         rb.velocity = new Vector2 (horzMove * speed, vect.y);
+
+        // T16 If Manny is jumping next to a wall his velocity will go up in the Y direction,
+        // if there is a wall on left or right and manny is not on the ground and 
+        if(IsWallOnLeftOrRight() && !IsOnGround() && horzMove == 1)
+        {
+            // T16 set the velocity to opposite the wall direction multiplied by our speed,
+            // -.75, and our jump wall y boost
+            rb.velocity = new Vector2(-GetWallDirection() * speed * -.75f, wallJumpY);
+        }
 
         // Set the Speed, the Speed we set up in the animator editor, to move between Idle and Run
         // so the right Animation is played, to the horzMove s absolute value
@@ -76,10 +90,14 @@ public class Manny : MonoBehaviour
             if (vertMove > 0f)
             {
                 isJumping = true;
+
+                // T16 if Manny is on the ground and starting a jump, make the jump sound
+                // it will only do the jump sound one time, at this point in the code, which is what we want
+                SoundManager.Instance.PlayOneShot(SoundManager.Instance.Jump);
             }
         }
         // If button is held pass max time, set vertical move to 0
-        // so Manny doesn't jump off the scree
+        // so Manny doesn't jump off the screen
         if (jumpButtonPressTime > maxJumpTime)
         {
             vertMove = 0f;
@@ -137,6 +155,13 @@ public class Manny : MonoBehaviour
 
     // T14 called to see if spacebar is being held down, jumping, false or true, on ground
     // by checking if the ground is directly below Manny, with the rayCast()
+    /*
+     1. First argument is the starting position, which is our gameObject's transform.
+     2. Second Argument is a Vector 2 which is the direction.
+     3. Third is the length.
+     4. Now, because the length might be a bit on the short-side, we want to offset that first argument a bit. 
+     SO, instead of just passing our position, we make a new vector2 composed of our x and y, which we tweak a bit.
+     */
     public bool IsOnGround()
     {
 
@@ -167,12 +192,66 @@ public class Manny : MonoBehaviour
     }
 
     // T14 If Manny falls off the screen destroy the game object
-   
 	void OnBecameInvisible(){
 		Debug.Log ("Manny Destroyed");
+
+        // play manny death sound clip
+        SoundManager.Instance.PlayOneShot(SoundManager.Instance.MannyDies);
 		Destroy (gameObject);
 	}
 
+    // T16 function to tell us if Manny is near a wall or not
+    // use a raycast to calculate this on the left '-'
+    public bool IsWallOnLeft()
+    {
+        // if it is on left, checked with rightcast, how far the raycast lenght is
+        return Physics2D.Raycast(new Vector2(transform.position.x - width, transform.position.y),
+            -Vector2.right, rayCastLength);
+    }
+
+    // T16 function to tell us if Manny is near a wall or not
+    // use a raycast to calculate this on the right '+'
+    public bool IsWallOnRight()
+    {
+        // if it is on right, checked with leftcast, how far the raycast lenght is
+        return Physics2D.Raycast(new Vector2(transform.position.x + width, transform.position.y),
+            Vector2.left, rayCastLength);
+    }
+
+    // T16 Verifies if walls are on left or right for wall jumping,
+    public bool IsWallOnLeftOrRight()
+    {
+        if(IsWallOnLeft() || IsWallOnRight())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
+
+    // T16 Gets the wall direction if it exists
+    // Multiply the results against Manny’s X velocity
+    public int GetWallDirection()
+    {
+        if(IsWallOnLeft())
+        {
+            // makes us go left
+            return -1;
+        }
+        else if(IsWallOnRight())
+        {
+            // makes us go right
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
     /*Start is called before the first frame update NOT USED HERE
     void Start()

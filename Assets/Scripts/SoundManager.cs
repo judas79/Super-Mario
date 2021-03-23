@@ -12,10 +12,14 @@ public class SoundManager : MonoBehaviour
 
 
     // T15 define All sound effects in the game
+    // T16 added MannyDies sound clip
     // All are public so you can set them in the Inspector
     public AudioClip Jump;
+    public AudioClip SixMillionJump;
     public AudioClip GetCoin;
     public AudioClip RockSmash;
+    public AudioClip MannyDies;
+    public AudioClip SnailDies;
 
     // T15 Refers to the audio source added to the SoundManager
     // to play sound effects

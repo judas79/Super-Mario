@@ -1,0 +1,217 @@
+How to Make Video Games 16 : Finish Super Mario
+
+https://www.youtube.com/watch?v=IEYKB_Vq5Wc&list=PLGLfVvz_LVvSYnwKyw9xP5tEn7GSUWwZJ&index=16
+
+In this video tutorial we completely finish our Mario Clone!!! It has been a ton of fun for me. I hope you have liked it as well?
+In this video we will Learn how to Program Wall Jumping, Use Raycasts, Animate Enemies, Create Enemies that Attack, Use Gizmos, 
+Draw a Sprite Sheet, Slice Sprite Sheets and a whole bunch more.
+
+http://www.newthinktank.com/2017/07/make-video-games-16/
+
+Like always the code follows the video below. The Unity Project files are here:
+
+ATTENTION! You can retrieve the 'MannyDies' sound clip, from within the zip file below, which is not included in the Assets folder, 
+we downloaded in the first tutorial of Super Mario.
+Look in the Assets folder, within the game, in the zip file.
+
+http://www.newthinktank.com/wordpress/unity/Mario.zip
+
+highlights from the comments area, in youtube:
+
+Raycast:
+1. First argument is the starting position, which is our gameObject's transform.
+2. Second Argument is a Vector 2 which is the direction.
+3. Third is the length.
+4. Now, because the length might be a bit on the short-side, we want to offset that first argument a bit. 
+SO, instead of just passing our position, we make a new vector2 composed of our x and y, which we tweak a bit.
+
+
+
+
+09:52 A single property would also suffice:
+private bool WallOnLeftOrRight => ( IsWallOnLeft() || IsWallOnRight() ) ? true : false;
+
+With regard to snail movement, the items in the path of the snail already had collision detection.  
+There is no need for the dot objects used to test for collision.  So with that in mind, 
+the Snail behavior could have caused movement left and right, flipping as needed.  Additionally, 
+a ray test could be used at a 45 degree down left/right to determine if ground collision was no longer relevant.  
+This would enable you to cause it to fall or turn around automatically.
+
+Derek Banas
+Thank you for the input. Yes I know I didn't need to add that extra part for creating the snail path. 
+I did it only to demonstrate how to do create that path of there was nothing visible to collide off of.
+
+
+
+Norman Normie Mates
+I missed what part of the script detected what part of the snail Manny hit
+pacman would be good
+
+Derek Banas
+That happens in the method OnCollisionEnter2D in Snail.cs
+
+Norman Normie Mates
+You mean this bit:
+if (col.contacts [0].point.y > transform.position.y){
+?
+what part is the hitting from above. Is col.contacts and array?
+
+Derek Banas
+Yes it is checking if the thing that collides with it (Manny) has a y position above the Snail. 
+If so the snail dies. Otherwise Manny dies
+
+
+
+****************************** Jump sound Manny *********************************
+
+
+If Manny is still on the ground and starting a jump, we will make the jump sound.
+It will only do the jump sound one time, at this point in the code, which is what we want.
+                
+Double click on the Manny script, and we will continue putting the Jump sound, there...
+
+Save in VS;  After returning from Manny.cs and entering the code to make the jump sound:
+run it to verify it works.
+
+
+******************************* make snail animation ***********************************
+
+
+First we will open our Snails, in Gimp, and set up a sprite sheet for them.
+File, New 64 x 64 width height; OK.
+Use z to zoom in to empty new file.
+Define pixel into 4ths, drag right side to middle 32, drag top to middle 32.
+Click background on right top side, the click layers menu, (right above the background, in the tiranglular dropdown)
+add alpha channel.
+Click background on right top side, the click layers menu, (right above the background, in the tiranglular dropdown)
+add new layer, fill with: transparency, name: layer, 64 x 64, then click ok.
+Right click background and delete layer.
+
+Open, both of your snails, that are in your assets folder.
+flip them to the right; Image, transform, flip horizontally.
+Select All, then copy, then select the new transparent layer, and paste, 
+Put the first snail in the to left segment we meassured out earlier and the second snail in the to right box.
+
+Click paste again, and drag that 3rd snail to the bottom  right, square we meassured out, earlier
+Make sure our pencil tool and eraser tool are set to 1 pixel, and flatten out the head of the 3rd snail,
+so that he looks dead.
+
+         
+       @@@@@@@@
+    @@@@@@@@@@@@@@
+   @@@@@@@@@@@@@@@@@@
+ @@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  @@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+Next, when that is finished, use the rectangle select tool to copy snail 3 and paste it into the fourth section.
+Export this new files as a png file, named Snail, into your assets folder.
+
+
+*********************************** fix Manny wall Jump ************************************
+
+
+To fix Mannys wall jumping capabilities, we will need to increase his velocity, in the y direction.
+
+Double click the Manny script and we will continue in VS...
+
+After returning from saving VS try this out to see if manny jumps better.
+
+
+************************************* make snail work ***************************************
+
+
+Drag your snail animation, you created earlier, into the Assets, Sprites folder, if you haven't already.
+
+Select, Snail and go into the settings and set, 
+sprite mode : multiple
+pixels per unit : 32 
+filter mode : point
+
+then click sprite editor, and choose apply, from poppup.
+in sprite editor choose second upside down triangle, then, grid by cell size
+pixel size = 32 x 32
+click slice, then click apply.
+
+Next we will animate our snails.
+Select the firs two snails and drag them into our scene window, next to the two bushes.
+A poppup to create a new animation should now be on the screen, name it SnailRun,
+then change the folder, where you are going to save it to, to the Anmation folder; press save.
+
+Select Snail_2 and Snail_3 and do the exact same thing, but name it SnailDeath.
+After saving, delete the dead snails 2 and 3, form our hierarchy list.
+Leave the Snail 0 alone.
+
+Go to the animations folder and double click Snail_0.
+Our animation editor should poppup.
+Then drag our SnailDeath, from the animation folder, into the animation editor window.
+Click the orange SnailRun, in the animation editor, the in its settings,
+speed = .5
+
+Next, in the animation editor, click parameter, and choose trigger, name it Dead.
+Then right click SnailRun, and choose, make transition and hook it to SnailDead.
+click on the transition arrow, and go to the settings area.
+Uncheck = has exit time
+Click on the + sign below that in the Conditions area, and it should say Dead.
+It will transition from run to dead, when it is = to Dead.
+Close the animation editor by choosing the #Scene wndow.
+
+Click on Snail_0 in our hierarchy, and add a boxCollider 2d to it.
+Set the offset x and y to get the boxcolliders borders as close as posible to your snail.
+My Settings for Snail Boxcollider:
+Offset x: 0.098593
+offset y: -0.2300503
+size x:	0.802814
+size y:	0.5398993
+If you have a 2019 or higher version, you can use the edit collider, and drag your collider walls,
+where you want them to be.
+
+Next add a rigidbody 2d to your snail.  Set settings:
+Freeze rotation z : Checked
+collision detection : continous
+
+In hierarchy, drag our Snail into the Wrapper, if you have a wrapper; I did not.
+Rename Snail_0 to Snail.
+
+Next, we will create two borders, for the snail to go back in forth between.
+In hierarchy, create >, Create Empty, and rename to SnailStart.
+In hierarchy, create >, Create Empty, and rename to SnailEnd.
+Position, SnailStart, on the bottom right side of the pipe, so it sits at mannys mid point.
+Position, SnailEnd, on the left side of the BrickBlocks, on the right side of the screen, at the same height as SnailStarts height.
+My y position for both SnailStart and SnailEnd is : -5.44
+When the Snail hits either of these point, it will face and go, in the opposite direction.
+You can use the droptdown, right under where is says, Inspector to choose a color to mark each one of the Snail borders,
+as a reference, but the color will not be seen in the game.
+
+Next, select both SnailStart and SnailEnd, and add CircleCollider 2d to them.
+Click, SnailStart, put a check next to is trigger and change raidus : .3
+Click, SnailEnd, put a check next to is trigger and change raidus : .3
+
+To get these Snail changes to work, create a script, name it Snail and double click, to continue in VS...
+
+After returning from coding our Snail.cs and returning to Unity,
+Select out Snail in hierarchy, drag our Snail script into our settings.
+run your came to verify it works.
+I had to click the 'edit Collider' tool, after selecting the SnailStart, to adjust where the CircleColider 2d was.
+Just drag the top, bottom, and sides of the collider into position.
+Do the same for the SnailEnd, if the Snail just stops,at the pipe or the BrickBlock.
+
+
+******************************** Manny VS Snail ****************************
+
+
+Either Manny kills the Snail, or the Snail kills Manny.
+First set up the Manny dying sound clip.
+Drag your MannyDies sound file into the Sounds folder.
+Next, click the Sound script to edit in VS, and continue there, to add the sound clip...
+
+Save all.... 
+After returning to Unity, click soundManager and add MannyDies by dragging the sound file into the soundmanger settings area.
+
+Next double click the Snail script and continue in VS setting up the death of the snail or Manny....
+
+NOTE:  I found another dying sound, so I used it for MannyDies, and renamed the former MannyDies to, SnailDies.
+Also, before the Snail is destroyed, in the Snail script, I put code to play the SnailDies sound clip.
+So, you need to add the SnailDies, to the SoundManager script, and then drag after returning to Unity,
+select SoundManager and drag SnailDies, form the Sounds into the SoundManager setting area, Snail Dies, field.
+

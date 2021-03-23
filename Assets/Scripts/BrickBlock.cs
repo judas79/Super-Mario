@@ -33,7 +33,8 @@ public class BrickBlock : MonoBehaviour
             sr.sprite = explodedBlock;
 
             // Wait a fraction of a second and then destroy the BrickBlock
-            DestroyObject (gameObject, secBeforeSpriteChange);
+            //DestroyObject(gameObject, secBeforeSpriteChange); // depreciated, gave warning in console
+            Object.Destroy(gameObject, secBeforeSpriteChange);
         }
     }
 }
